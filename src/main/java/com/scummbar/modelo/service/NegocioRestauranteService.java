@@ -21,4 +21,5 @@ public interface NegocioRestauranteService {
 	public List<Turno> getTurnos();
 	public boolean reservar(Restaurante restaurante, Reserva reserva);
 	public boolean cancelarReserva(String localizador, Date dia, Turno turno);
+	
 }

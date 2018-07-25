@@ -41,12 +41,7 @@ public class ControladorCancelaciones {
 		reserva.setTurno(service.getTurno(dto.getTurnoId()));
 
 		reserva.setLocalizador(dto.getLocalizador());
-
-		// Poniendo como parámetro el localizador, funcional pero no tiene en cuenta ni dia ni turno al cancelar
-//		model.addObject("cancelado",
-//				service.cancelarReserva(reserva.getLocalizador(), reserva.getDia(), reserva.getTurno()));
 		
-		// Prueba como la línea de arriba pero poniendo como parámetro el localizador + el dia y turno
 		boolean cancelarReserva = service.cancelarReserva(reserva.getLocalizador(), reserva.getDia(), reserva.getTurno());
 		model.addObject("cancelado",cancelarReserva);
 		// Versión correcta según el pdf (el pdf está mal)

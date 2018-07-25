@@ -10,12 +10,11 @@ public class Mesa {
 		super();
 	}
 	
-	public Mesa(Long id, Integer numero, Integer capacidad, Boolean disponibilidad) {
+	public Mesa(Long id, Integer numero, Integer capacidad) {
 		super();
 		this.id = id;
 		this.numero = numero;
 		this.capacidad = capacidad;
-		this.disponibilidad=disponibilidad;
 	}
 	
 	@Id
@@ -28,10 +27,6 @@ public class Mesa {
 	
 	@Column(name="capacidad", unique=true, nullable=false)
 	private Integer capacidad;
-	
-	//Indica si la mesa se encuentra disponible o no (con true o false)
-	@Column(name="disponibilidad", nullable=false)
-	private Boolean disponibilidad;
 
 	@Transient
 	public Long getId() {
@@ -58,22 +53,8 @@ public class Mesa {
 		return capacidad;
 	}
 	
-//	 public getTotalPlazas() {
-//		 return null;
-//	 }
-	
 	@Transient
 	public void setCapacidad(Integer capacidad) {
 		this.capacidad=capacidad;
-	}
-	
-	@Transient
-	public Boolean getDisponibilidad() {
-		return disponibilidad;
-	}
-
-	@Transient
-	public void setDisponibilidad(Boolean disponibilidad) {
-		this.disponibilidad=disponibilidad;
 	}
 }

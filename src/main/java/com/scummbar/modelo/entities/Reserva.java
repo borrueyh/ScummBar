@@ -8,7 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -35,7 +38,7 @@ public class Reserva {
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 	
-	@Column(name="dia", unique=true, nullable=false)
+	@Column(name="dia", nullable=false)
 	private Date dia;
 	
 	@Column(name="personas", nullable=false)
@@ -46,6 +49,14 @@ public class Reserva {
 	
 	@ManyToOne
 	private Turno turno;
+	
+	@ManyToOne
+	private Mesa mesa;
+
+	//Pruebaaaaaaaaaaaaaaaaaa
+	@OneToOne
+	@JoinColumn(name = "restaurante_Id", nullable = false, insertable=true)
+	private Restaurante restaurante; 
 	
 	@Transient
 	public Long getId() {
@@ -95,6 +106,26 @@ public class Reserva {
 	@Transient
 	public void setTurno(Turno turno) {
 		this.turno=turno;
+	}
+	
+	@Transient
+	public Mesa getMesa() {
+		return mesa;
+	}
+	
+	@Transient
+	public void setMesa(Mesa mesa) {
+		this.mesa=mesa;
+	}
+	
+	@Transient
+	public Restaurante getRestaurante() {
+		return restaurante;
+	}
+	
+	@Transient
+	public void setRestaurante(Restaurante restaurante) {
+		this.restaurante=restaurante;
 	}
 	
 }

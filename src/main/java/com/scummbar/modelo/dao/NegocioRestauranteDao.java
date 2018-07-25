@@ -13,7 +13,7 @@ import com.scummbar.modelo.entities.Turno;
 public interface NegocioRestauranteDao {
 
 	public Turno getTurno(Long id);
-	
+
 	void addRestaurante(Restaurante restaurante);
 
 	Restaurante getRestaurante(long id);
@@ -30,10 +30,15 @@ public interface NegocioRestauranteDao {
 	List<Restaurante> getRestaurantes();
 
 	List<Turno> getTurnos();
-	
-	//PRUEBA. Devuelve una mesa según su capacidad.
+
+	// Devuelve una mesa según su capacidad.
 	public Mesa getMesaByCapacidad(Integer capacidad);
+
+	// Igual que arriba pero pasandole por parámetro un restaurante.
+	public Boolean getReservaLibre(Date dia, Turno turno, Integer capacidad, Long idrestaurante);
 	
-	//PRUEBA. Para cambiar la disponibilidad de una mesa.
-	public Mesa updateDisponibilidadMesa(Integer capacidad, Boolean disponibilidad);
+	public Mesa getMesaDisponible(Date dia, Turno turno, Integer capacidad, Long idrestaurante);
+	
+	public Mesa getMesaLibrePrueba(Date dia, Turno turno, Integer capacidad, Long idrestaurante);
+
 }

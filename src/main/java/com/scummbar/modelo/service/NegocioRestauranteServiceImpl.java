@@ -43,27 +43,30 @@ public class NegocioRestauranteServiceImpl implements NegocioRestauranteService 
 		return negociodao.getTurnos();
 	}
 
-	// public Mesa getMesa(Long id) {
-	// return negociodao.getMesa(id);
-	// }
-
 	// Método para añadir una nueva reserva. Devuelve true si se añade una reserva,
 	// en caso contrario false.
 	public boolean reservar(Restaurante restaurante, Reserva reserva) {
 		boolean resultado;
-		boolean disponibilidad = true;
 
 		// Creación del localizador de la nueva reserva. Se crea a partir de la fecha
 		// actual.
 		String localizador = Long.toString((new Date()).getTime());
 
 		try {
-			// Pruebas
-			// Si reserva no es nulo y existe una mesa con esa capacidad...
-			if (reserva != null & negociodao.getMesaByCapacidad(reserva.getPersonas()) != null) {
-				disponibilidad = false;
-				negociodao.updateDisponibilidadMesa(reserva.getPersonas(), disponibilidad);
+			// Si la reserva no es null y la reserva está libre...
+			if (reserva != null & negociodao.getReservaLibre(reserva.getDia(), reserva.getTurno(),
+					reserva.getPersonas(), restaurante.getId()) == true) {
 				reserva.setLocalizador(localizador);
+				// Asigna el id de la mesa disponible a la reserva.
+				// reserva.setMesa(negociodao.getMesaByCapacidad(reserva.getPersonas()));
+
+				// PRUEBA. Substituye la linea de arriba (getMesaByCapacidad) que funciona bien
+				// pero no comprueba la disponibilidad correctamente.
+				reserva.setMesa(negociodao.getMesaLibrePrueba(reserva.getDia(), reserva.getTurno(),
+						reserva.getPersonas(), restaurante.getId()));
+
+				// Se asigna el restaurante a la reserva.
+				reserva.setRestaurante(restaurante);
 				negociodao.addReserva(reserva);
 				resultado = true;
 
@@ -81,7 +84,6 @@ public class NegocioRestauranteServiceImpl implements NegocioRestauranteService 
 	// Método para cancelar una reserva.
 	public boolean cancelarReserva(String localizador, Date dia, Turno turno) {
 		boolean resultado;
-		boolean disponibilidad=true;
 
 		try {
 			Reserva reserva = negociodao.getReserva(localizador, dia, turno);
@@ -89,10 +91,9 @@ public class NegocioRestauranteServiceImpl implements NegocioRestauranteService 
 			// día indicado,...)
 			// se cancela la reserva y resultado pasa a ser true, para que el EL de
 			// cancelado.jsp muestre
-			// el mensaje adecuado del fichero messages_es_properties. Además la mesa pasa a estar libre
+			// el mensaje adecuado del fichero messages_es_properties. Además la mesa pasa a
+			// estar libre
 			if (localizador != null & localizador != "" & !reserva.equals(null)) {
-				disponibilidad = true;
-				negociodao.updateDisponibilidadMesa(reserva.getPersonas(), disponibilidad);
 				negociodao.cancelarReserva(localizador, dia, turno);
 				resultado = true;
 			} else {
@@ -109,4 +110,5 @@ public class NegocioRestauranteServiceImpl implements NegocioRestauranteService 
 		}
 		return resultado;
 	}
+
 }
